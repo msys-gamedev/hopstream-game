@@ -19,6 +19,9 @@ public class Item : MonoBehaviour
     public Animator animator;
     public ParticleSystem dustParticle;
 
+    [Header("Audio")]
+    public AudioClip destroySound;
+
     [HideInInspector] public bool Push;
 
     private float lifeTimer;
@@ -72,6 +75,7 @@ public class Item : MonoBehaviour
     {
         if (!CanDestroy()) return;
 
+        PlayDestroySound();
         Destroy(gameObject);
     }
 
@@ -79,7 +83,14 @@ public class Item : MonoBehaviour
     {
         if (!CanDestroy()) return;
         enabled = false;
+        PlayDestroySound();
         animator.SetTrigger("Explode");
         Destroy(gameObject, 1f);
+    }
+
+    void PlayDestroySound()
+    {
+        if (destroySound != null)
+            AudioSource.PlayClipAtPoint(destroySound, transform.position);
     }
 }
