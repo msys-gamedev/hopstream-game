@@ -21,6 +21,7 @@ public class Item : MonoBehaviour
 
     [Header("Audio")]
     public AudioClip destroySound;
+    public AudioClip pointSound;
 
     [HideInInspector] public bool Push;
 
@@ -28,6 +29,7 @@ public class Item : MonoBehaviour
     private bool canBePushed;
     private float velocity;
     private bool wasFalling;
+    private bool isDestroyed;
 
     private void Start()
     {
@@ -81,16 +83,29 @@ public class Item : MonoBehaviour
 
     public void DestroyTrashItem()
     {
-        if (!CanDestroy()) return;
-        enabled = false;
+        if (!CanDestroy() || isDestroyed) return;
+
+        isDestroyed = true;
+
         PlayDestroySound();
+        enabled = false;
         animator.SetTrigger("Explode");
         Destroy(gameObject, 1f);
     }
+    
+    public void PlayAddPointsSound()
+    {
+        if (pointSound != null)
+            AudioSource.PlayClipAtPoint(pointSound, transform.position);
+    }
+
+
 
     void PlayDestroySound()
     {
         if (destroySound != null)
             AudioSource.PlayClipAtPoint(destroySound, transform.position);
     }
+
+   
 }

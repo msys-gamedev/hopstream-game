@@ -10,6 +10,7 @@ public class Coin : Item
         if (GameManager.Instance != null)
         {
             GameManager.Instance.AddScore(score);
+            PlayAddPointsSound();
         }
     }
 }

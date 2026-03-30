@@ -264,6 +264,7 @@ MonoBehaviour:
   destroyFallbackTime: 2
   animator: {fileID: 8410787775103706579}
   dustParticle: {fileID: 9049060688217511041}
+  destroySound: {fileID: 8300000, guid: 2d96c847064f6d14fac53bc99d8677f9, type: 3}
   Push: 0
   score: 100
 --- !u!1001 &7077513873949829307
