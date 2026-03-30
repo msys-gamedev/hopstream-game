@@ -21,6 +21,10 @@ public class Player : MonoBehaviour
     [Tooltip("Width of the water trail.")]
     public float trailWidth = 0.15f;
 
+    [Header("Audio")]
+    public AudioSource shootAudioSource;
+    public AudioClip shootSound;
+
     [Header("Animation")]
     public Animator animator;
 
@@ -148,7 +152,10 @@ public class Player : MonoBehaviour
         UpdateTrail();
         
         if (!wasShooting)
+        {
             effects.EnableParticle();
+            StartShootSound();
+        }
 
         Debug.DrawRay(origin, Vector2.up * (hasHit ? lastHit.distance : hitDistance),
             hasHit ? Color.red : Color.green);
@@ -201,7 +208,26 @@ public class Player : MonoBehaviour
         if (waterTrail != null)
             waterTrail.enabled = false;
         if (wasShooting)
+        {
             effects.DisableParticle();
+            StopShootSound();
+        }
+    }
+
+    private void StartShootSound()
+    {
+        if (shootAudioSource != null && shootSound != null && !shootAudioSource.isPlaying)
+        {
+            shootAudioSource.clip = shootSound;
+            shootAudioSource.loop = true;
+            shootAudioSource.Play();
+        }
+    }
+
+    private void StopShootSound()
+    {
+        if (shootAudioSource != null && shootAudioSource.isPlaying)
+            shootAudioSource.Stop();
     }
 
     private void OnDrawGizmos()
